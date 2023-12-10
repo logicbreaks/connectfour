@@ -59,8 +59,9 @@ public class Main {
             }
 
         } else {
-            connectfourki myki = new connectfourki();
-            myki.setki(activeplayer, playfield);
+            connectfourki.player = activeplayer;
+            connectfourki.field = playfield;
+            
         }
     }
 
