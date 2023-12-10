@@ -15,47 +15,53 @@ public class Main {
     };
 
     public static void main(String[] args) {
-        int myrow;
-        int move;
-        int check;
-        welcome();
-        renderPlayField();
-        while ((checkiffull() == 0) && checkifwin(1) == 0 && checkifwin(2) == 0) {
-            check = 0;
-            myrow = 1;
-            while (check == 0) {
-                try {
-                    System.out.printf("Player %s, choose your row: ", Integer.toString(activeplayer));
-                    myrow = myscanner.nextInt();
-                    check = 1;
-                } catch (Exception e) {
-                    System.out.println("Please provide an valid number as input!");
-                    myscanner.nextLine();
+        if (activeplayer != 2) {
+
+            int myrow;
+            int move;
+            int check;
+            welcome();
+            renderPlayField();
+            while ((checkiffull() == 0) && checkifwin(1) == 0 && checkifwin(2) == 0) {
+                check = 0;
+                myrow = 1;
+                while (check == 0) {
+                    try {
+                        System.out.printf("Player %s, choose your row: ", Integer.toString(activeplayer));
+                        myrow = myscanner.nextInt();
+                        check = 1;
+                    } catch (Exception e) {
+                        System.out.println("Please provide an valid number as input!");
+                        myscanner.nextLine();
+                    }
                 }
+                System.out.println(checkifwin(1));
+                move = playmove(activeplayer, myrow);
+                if (move == 1) {
+                    System.out.println("Row is already full! Please choose different row.");
+                } else if (move == 0) {
+                    System.out.println("Move was successful!");
+                    if (activeplayer == 1) {
+                        activeplayer = 2;
+                    } else {
+                        activeplayer = 1;
+                    }
+                    renderPlayField();
+                } else if (move == 3) {
+                    System.out.println("Not a valid row! Please choose different row.");
+                }
+
             }
-            System.out.println(checkifwin(1));
-            move = playmove(activeplayer, myrow);
-            if (move == 1) {
-                System.out.println("Row is already full! Please choose different row.");
-            } else if (move == 0) {
-                System.out.println("Move was successful!");
-                if (activeplayer == 1) {
-                    activeplayer = 2;
-                } else {
-                    activeplayer = 1;
-                }
-                renderPlayField();
-            } else if (move == 3) {
-                System.out.println("Not a valid row! Please choose different row.");
+            if (checkifwin(1) == 1) {
+                System.out.println("Player 1 won!");
+            } else if (checkifwin(2) == 1) {
+                System.out.println("Player 2 won!");
             }
 
+        } else {
+            connectfourki myki = new connectfourki();
+            myki.setki(activeplayer, playfield);
         }
-        if (checkifwin(1) == 1) {
-            System.out.println("Player 1 won!");
-        } else if (checkifwin(2) == 1) {
-            System.out.println("Player 2 won!");
-        }
-
     }
 
     public static void welcome() {
@@ -165,4 +171,5 @@ public class Main {
 
         return 0;
     }
+
 }
