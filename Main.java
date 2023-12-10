@@ -21,7 +21,6 @@ public class Main {
         welcome();
         renderPlayField();
         while ((checkiffull() == 0) && checkifwin(1) == 0 && checkifwin(2) == 0) {
-            if ()
             check = 0;
             myrow = 1;
             while (check == 0) {
