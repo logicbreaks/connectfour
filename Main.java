@@ -61,7 +61,16 @@ public class Main {
         } else {
             connectfourki.player = activeplayer;
             connectfourki.field = playfield;
-            
+            int[] kiresult = connectfourki.move();
+            if (kiresult[0] == 0) {
+                System.out.println("ki didnt answer :(");
+            } else if (kiresult[0] == 1) {
+                int move = playmove(activeplayer, (kiresult[2] + 1));
+                if (move == 1) {
+                    
+                }
+            }
+
         }
     }
 

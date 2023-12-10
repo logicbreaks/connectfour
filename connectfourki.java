@@ -4,8 +4,19 @@ public class connectfourki {
     static int player;
     static String[][] field;
 
-    public static void move() {
-           checkDangertoBlock();
+    public static int[] move() {
+           int[] check;
+           check = checkDangertoBlock();
+           if (check[0] != 0) {
+                int[] myint = new int[3];
+                myint[0] = 1;
+                myint[1] = check[1];
+                myint[2] = check[2];
+                return myint;
+           }
+           int[] myint = new int[1];
+           myint[0] = 0;
+           return myint;
     }
 
     private static int[] checkDangertoBlock() {
@@ -17,15 +28,54 @@ public class connectfourki {
             myint[0] = 0;
             return myint;
         } else if (checkDiagonaldangerToright()[0] == 1) {
-            return checkDiagonaldangerToright();
+            int[] check = checkdanger(checkDiagonaldangerToright()[1], checkDiagonaldangerToright()[2]);
+            if (check[0] == 1) {
+                return checkDiagonaldangerToright();
+            }
         } else if (checkDiagonaldangerToleft()[0] == 1) {
-            return checkDiagonaldangerToleft();
+            int[] check = checkdanger(checkDiagonaldangerToleft()[1], checkDiagonaldangerToleft()[2]);
+            if (check[0] == 1) {
+                return checkDiagonaldangerToleft();
+            }
         } else if (checkHorizontdanger()[0] == 1) {
             return checkHorizontdanger();
         } else if (checkVerticaldanger()[0] == 1) {
             return checkVerticaldanger();
         }
-        return new int[1];
+        
+        int[] myint = new int[1];
+        myint[0] = 0;
+        return myint;
+    }
+
+    private static int[] checkdanger(int slide, int row) {
+        //check the danger by looking if the danger coordinate maybe already full from active player so its not detected but false alarm
+        for (int i = 0; i < 6; i++) {
+            if (!(field[i][row].equals(""))) {
+                if (i == slide) {
+                    int[] myint = new int[1];
+                    myint[0] = 0;
+                    return myint;
+                } else if (i < slide) {
+                    System.out.println("this should definitly not happen!");
+                    int[] myint = new int[1];
+                    myint[0] = 0;
+                    return myint;
+                } else if (i > slide) {
+                    int[] myint = new int[1];
+                    myint[0] = 1;
+                    return myint;
+                }
+            } else {
+                int[] myint = new int[1];
+                myint[0] = 1;
+                return myint;
+            }
+        }
+        System.out.println("should definitly also not happen");
+        int[] myint = new int[1];
+        myint[0] = 0;
+        return myint;
     }
 
     private static int[] checkDiagonaldangerToright() {
@@ -88,6 +138,24 @@ public class connectfourki {
         return myint;
     }
     private static int[] checkHorizontdanger() {
+        int horizoninarow = 0;
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 7; y++) {
+                if (field[x][y].equals(Integer.toString(player))) {
+                    horizoninarow += 1;
+                    if (horizoninarow >= 3) {
+                        int[] myint = new int[3];
+                        myint[0] = 1;
+                        myint[1] = x;
+                        myint[2] = y;
+                    }
+                } else {
+                    horizoninarow = 0;
+                }
+
+            }
+            horizoninarow = 0;
+        }
         int[] myint = new int[1];
         myint[0] = 0;
         return myint;
