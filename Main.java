@@ -64,13 +64,19 @@ public class Main {
             int[] kiresult = connectfourki.move();
             if (kiresult[0] == 0) {
                 System.out.println("ki didnt answer :(");
+                activeplayer = 1;
             } else if (kiresult[0] == 1) {
                 int move = playmove(activeplayer, (kiresult[2] + 1));
                 if (move == 1) {
-                    
+                    System.out.println("weird");
+                } else if (move == 0) {
+                    System.out.println("Move was successful!");
+                    activeplayer = 1;
+                    renderPlayField();
+                } else if (move == 3) {
+                    System.out.println("weird");
                 }
             }
-
         }
     }
 
