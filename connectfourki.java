@@ -1,12 +1,10 @@
 package connectfour;
 
 public class connectfourki {
-    static int player;
-    static String[][] field;
 
-    public static int[] move() {
+    public static int[] move(String[][] field, int player) {
            int[] check;
-           check = checkDangertoBlock();
+           check = checkDangertoBlock(field, player);
            if (check[0] != 0) {
                 int[] myint = new int[3];
                 myint[0] = 1;
@@ -19,28 +17,33 @@ public class connectfourki {
            return myint;
     }
 
-    private static int[] checkDangertoBlock() {
-        if (checkHorizontdanger()[0] == 0
-        && checkVerticaldanger()[0] == 0 
-        && checkDiagonaldangerToleft()[0] == 0 
-        && checkDiagonaldangerToright()[0] == 0) {
+    private static int[] checkDangertoBlock(String[][] field, int player) {
+        if (checkHorizontdanger(field, player)[0] == 0
+        && checkVerticaldanger(field, player)[0] == 0 
+        && checkDiagonaldangerToleft(field, player)[0] == 0 
+        && checkDiagonaldangerToright(field, player)[0] == 0) {
+            System.out.println("Nothing detected!");
             int[] myint = new int[1];
             myint[0] = 0;
             return myint;
-        } else if (checkDiagonaldangerToright()[0] == 1) {
-            int[] check = checkdanger(checkDiagonaldangerToright()[1], checkDiagonaldangerToright()[2]);
+        } else if (checkDiagonaldangerToright(field, player)[0] == 1) {
+            int[] check = checkdanger(checkDiagonaldangerToright(field, player)[1], checkDiagonaldangerToright(field, player)[2], field);
             if (check[0] == 1) {
-                return checkDiagonaldangerToright();
+                return checkDiagonaldangerToright(field, player);
             }
-        } else if (checkDiagonaldangerToleft()[0] == 1) {
-            int[] check = checkdanger(checkDiagonaldangerToleft()[1], checkDiagonaldangerToleft()[2]);
+        } else if (checkDiagonaldangerToleft(field, player)[0] == 1) {
+            int[] check = checkdanger(checkDiagonaldangerToleft(field, player)[1], checkDiagonaldangerToleft(field, player)[2], field);
             if (check[0] == 1) {
-                return checkDiagonaldangerToleft();
+                return checkDiagonaldangerToleft(field, player);
             }
-        } else if (checkHorizontdanger()[0] == 1) {
-            return checkHorizontdanger();
-        } else if (checkVerticaldanger()[0] == 1) {
-            return checkVerticaldanger();
+        } else if (checkHorizontdanger(field, player)[0] == 1) {
+            int[] check = checkdanger(checkHorizontdanger(field, player)[1], checkHorizontdanger(field, player)[2], field);
+            if (check[0] == 1) {
+                return checkHorizontdanger(field, player);
+            }
+            return checkHorizontdanger(field, player);
+        } else if (checkVerticaldanger(field, player)[0] == 1) {
+            return checkVerticaldanger(field, player);
         }
         
         int[] myint = new int[1];
@@ -48,7 +51,7 @@ public class connectfourki {
         return myint;
     }
 
-    private static int[] checkdanger(int slide, int row) {
+    private static int[] checkdanger(int slide, int row, String[][] field) {
         //check the danger by looking if the danger coordinate maybe already full from active player so its not detected but false alarm
         for (int i = 0; i < 6; i++) {
             if (!(field[i][row].equals(""))) {
@@ -78,7 +81,7 @@ public class connectfourki {
         return myint;
     }
 
-    private static int[] checkDiagonaldangerToright() {
+    private static int[] checkDiagonaldangerToright(String[][] field, int player) {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 4; y++) {
                 if (field[x][y].equals(Integer.toString(player))
@@ -96,7 +99,7 @@ public class connectfourki {
         myint[0] = 0;
         return myint;
     }
-    private static int[] checkDiagonaldangerToleft() {
+    private static int[] checkDiagonaldangerToleft(String[][] field, int player) {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 4; y++) {
                 if (field[x][y].equals(Integer.toString(player))
@@ -115,7 +118,7 @@ public class connectfourki {
         myint[0] = 0;
         return myint;
     }
-    private static int[] checkVerticaldanger() {
+    private static int[] checkVerticaldanger(String[][] field, int player) {
         int verticalinarow = 0;
         for (int r = 0; r < 7; r++) {
             for (int w = 0; w < 6; w++) {
@@ -137,7 +140,7 @@ public class connectfourki {
         myint[0] = 0;
         return myint;
     }
-    private static int[] checkHorizontdanger() {
+    private static int[] checkHorizontdanger(String[][] field, int player) {
         int horizoninarow = 0;
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 7; y++) {
